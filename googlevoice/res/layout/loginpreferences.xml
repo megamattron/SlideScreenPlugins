@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+        >
+
+    <EditText android:id="@+id/login_username"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:hint="Username"
+              android:nextFocusDown="@+id/login_password"
+            />
+
+    <EditText android:id="@+id/login_password"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:inputType="textPassword"
+              android:hint="Password"
+              android:nextFocusDown="@+id/check_button"
+            />
+
+    <LinearLayout android:id="@+id/check_group"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical"
+                  android:baselineAligned="false"
+            >
+
+        <TextView android:id="@+id/check_results"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="(Press button to test)"
+                  android:layout_weight="1"
+                  android:paddingLeft="2dp"
+                />
+
+        <Button android:id="@+id/check_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check Login"
+                />
+
+    </LinearLayout>
+</LinearLayout>
