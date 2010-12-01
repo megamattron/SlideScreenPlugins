@@ -348,14 +348,14 @@
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
       <map>
-        <entry key="$PROJECT_DIR$">
+        <entry key="$USER_HOME$/code/android/slidedemo">
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="https://venture1.projectlocker.com/LarvaLabs/Main/svn/android/slidedemo" />
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$USER_HOME$/code/android/slidedemo">
+        <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="https://venture1.projectlocker.com/LarvaLabs/Main/svn/android/slidedemo" />
@@ -402,7 +402,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="svn" />
+    <mapping directory="$USER_HOME$/code/android/slidescreenplugin" vcs="Git" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
