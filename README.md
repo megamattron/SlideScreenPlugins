@@ -1,93 +1,60 @@
-GitHub Markup
+SlideScreen Plugin API
 =============
 
-We use this library on GitHub when rendering your README or any other
-rich text file.
+This is the home of the [SlideScreen](http://slidescreenhome) Plugin API and examples. It is currently a "Developer Preview" 
+and requires SlideScreen 2.0 Beta for integrated testing.
 
-Markups
+### Basic Structure
+
+You are only required to provide two classes:
+
+* A class that extends PluginReceiver and implements the abstract methods defined.
+* A ContentProvider that responds to a specific set of fields.
+
+Basically, your PluginReceiver responds to an Intent broadcast and returns the necessary info about your plugin, after which SlideScreen will query your ContentProvider for the actual data.
+
+### The PluginReceiver
+
+Here is the information SlideScreen needs to integrate your plugin, each type corresponds to a method in the receiver:
+
+* A URI that points to your ContentProvider.
+* A human readable name for your group.
+* A default color to be shown beside the group in the interface.
+* An icon for the right side of the group in a format specified later.
+* An array of Intents to try when the user single presses your icon. The Intents are tried in order until one works.
+* An array of Intents for the long press of your icon.
+* An Intent to launch your plugin's preferences activity.
+
+There is also one callback method:
+
+* markedAsRead(itemId) which you implement to do something when the user has marked one of your items as read.
+
+### The ContentProvider
+
+The best way to understand the implementation of the ContentProvider is to look at the basic example included in pluginbase/. After that, a more complicated example is included in the Google Voice plugin. In general:
+
+* You are not responsible for storing your data, SlideScreen will do that for you. Just return the full set of data your plugin would wish to see on the home screen and we'll handle the rest. Any entries we don't see any more we'll assume have been read elsewhere, or no longer exist and will be removed from our interface.
+* You are not responsible for scheduling your own updates, we will update on the schedule the user requests.
+* You can just fail and return null if anything unexpected happens, including no network connection. We will retry your plugin later.
+* If you detect a failure caused by incomplete or incorrect settings in your plugin, you can request that SlideScreen notify the user on the homescreen and direct them to your settings activity. See the Google Voice plugin for an example of this.
+* You can request SlideScreen to refresh from your ContentProvider by notifying observers of a data change. In this way you can create a plugin that pushes changes to SlideScreen in realtime. (Note: This is relatively untested right now and might change in future API versions.)
+
+Your plugin is limited in some fairly generous ways at the moment, we might tighten these if misbehaving plugins end up causing performance problems:
+
+* Your total runtime cannot exceed 10 minutes. This really is just a safety limit, if you're taking anywhere close to this you have a problem. Most of our plugins can complete in under 30 seconds (on wifi).
+* Your plugin cannot 'push' SlideScreen updates too often. How we throttle this is a little complicated, but just don't try to update a bunch of times in a row and you'll be ok.
+
+### Misc
+
+* Icons of various sizes can be provided via the normal Android resource framework. We are working on a style guide for the style of icon SlideScreen uses currently, it should be ready shortly. Note: Please try not to break our hearts by using an insane icon.
+* The Google Voice plugin included needs more work, especially in parsing message content. It would also be nice to be able to return calls from the interface and better integrate with the official Google Voice app.
+
+Support
 -------
 
-The following markups are supported.  The dependencies listed are required if
-you wish to run the library.
+Please use http://getsatisfaction.com/larvalabs/products/larvalabs_slidescreen_plugin_api for support and suggestions.
 
-* [.markdown](http://daringfireball.net/projects/markdown/) -- `gem install rdiscount`
-* [.textile](http://www.textism.com/tools/textile/) -- `gem install RedCloth`
-* [.rdoc](http://rdoc.sourceforge.net/)
-* [.org](http://orgmode.org/) -- `gem install org-ruby`
-* [.creole](http://wikicreole.org/) -- `gem install creole`
-* [.rst](http://docutils.sourceforge.net/rst.html) -- `easy_install docutils`
-* [.asciidoc](http://www.methods.co.nz/asciidoc/) -- `brew install asciidoc`
-* [.pod](http://search.cpan.org/dist/perl/pod/perlpod.pod) -- `Pod::Simple::HTML`
-  comes with Perl >= 5.10. Lower versions should install Pod::Simple from CPAN.
-* .1 - Requires [`groff`](http://www.gnu.org/software/groff/)
+Credits
+-------
 
-
-Contributing
-------------
-
-Want to contribute? Great! There are two ways to add markups.
-
-
-### Commands
-
-If your markup is in a language other than Ruby, drop a translator
-script in `lib/github/commands` which accepts input on STDIN and
-returns HTML on STDOUT. See [rest2html][r2h] for an example.
-
-Once your script is in place, edit `lib/github/markups.rb` and tell
-GitHub Markup about it. Again we look to [rest2html][r2hc] for
-guidance:
-
-    command(:rest2html, /re?st(.txt)?/)
-
-Here we're telling GitHub Markup of the existence of a `rest2html`
-command which should be used for any file ending in `rest`,
-`rst`, `rest.txt` or `rst.txt`. Any regular expression will do.
-
-Finally add your tests. Create a `README.extension` in `test/markups`
-along with a `README.extension.html`. As you may imagine, the
-`README.extension` should be your known input and the
-`README.extension.html` should be the desired output.
-
-Now run the tests: `rake`
-
-If nothing complains, congratulations!
-
-
-### Classes
-
-If your markup can be translated using a Ruby library, that's
-great. Check out Check `lib/github/markups.rb` for some
-examples. Let's look at Markdown:
-
-    markup(:markdown, /md|mkdn?|markdown/) do |content|
-      Markdown.new(content).to_html
-    end
-
-We give the `markup` method three bits of information: the name of the
-file to `require`, a regular expression for extensions to match, and a
-block to run with unformatted markup which should return HTML.
-
-If you need to monkeypatch a RubyGem or something, check out the
-included RDoc example.
-
-Tests should be added in the same manner as described under the
-`Commands` section.
-
-
-Installation
------------
-
-    gem install github-markup
-
-
-Usage
------
-
-    require 'github/markup'
-    GitHub::Markup.render('README.markdown', "* One\n* Two")
-
-Or, more realistically:
-
-    require 'github/markup'
-    GitHub::Markup.render(file, File.read(file))
+The Google Voice plugin makes use of modified copy of the [google-voice-java](http://code.google.com/p/google-voice-java/) library. We're trying to figure out the best way to contribute those changes back to the main project, but for the meantime the source is included here for ease of development.
