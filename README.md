@@ -1,7 +1,7 @@
 SlideScreen Plugin API
 =============
 
-This is the home of the [SlideScreen](http://slidescreenhome) Plugin API and examples. It is currently a "Developer Preview" 
+This is the home of the [SlideScreen](http://slidescreenhome.com) Plugin API and examples. It is currently a "Developer Preview" 
 and requires SlideScreen 2.0 Beta for integrated testing.
 
 ### Basic Structure
@@ -52,7 +52,7 @@ Your plugin is limited in some fairly generous ways at the moment, we might tigh
 Support
 -------
 
-Please use http://getsatisfaction.com/larvalabs/products/larvalabs_slidescreen_plugin_api for support and suggestions.
+Please use [our API specific support site](http://getsatisfaction.com/larvalabs/products/larvalabs_slidescreen_plugin_api) for support and suggestions.
 
 Credits
 -------
