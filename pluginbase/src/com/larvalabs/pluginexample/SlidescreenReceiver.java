@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.*;
 import android.net.Uri;
+import android.util.Log;
 import com.larvalabs.slidescreen.PluginReceiver;
 
 /**
@@ -11,7 +12,7 @@ import com.larvalabs.slidescreen.PluginReceiver;
  */
 public class SlidescreenReceiver extends PluginReceiver {
 
-    
+    public static final String TAG = SlidescreenReceiver.class.getName();
 
     @Override
     public int getColor() {
@@ -51,5 +52,10 @@ public class SlidescreenReceiver extends PluginReceiver {
     public Intent getPreferenceActivityIntent() {
         // Replace this with an Intent to launch your app's preferences activity
         return null;
+    }
+
+    @Override
+    public void markedAsRead(String itemId) {
+        Log.d(TAG, "Received item marked as read: " + itemId);
     }
 }

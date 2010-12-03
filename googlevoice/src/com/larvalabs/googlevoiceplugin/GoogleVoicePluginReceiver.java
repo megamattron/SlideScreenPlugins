@@ -4,12 +4,14 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.*;
 import android.net.Uri;
+import android.util.Log;
 import com.larvalabs.slidescreen.PluginReceiver;
 
 /**
  * @author John Watkinson
  */
 public class GoogleVoicePluginReceiver extends PluginReceiver {
+    private static final String TAG = GoogleVoicePluginReceiver.class.getSimpleName();
 
     @Override
     public int getColor() {
@@ -57,5 +59,10 @@ public class GoogleVoicePluginReceiver extends PluginReceiver {
         Intent prefsIntent = new Intent(Intent.ACTION_MAIN);
         prefsIntent.setComponent(new ComponentName("com.larvalabs.googlevoiceplugin", "com.larvalabs.googlevoiceplugin.GoogleVoicePluginPreferences"));
         return prefsIntent;
+    }
+
+    @Override
+    public void markedAsRead(String itemId) {
+        Log.d(TAG, "Recevied item marked as read: " + itemId);
     }
 }

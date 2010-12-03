@@ -9,7 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Android" level="application" />
-    <orderEntry type="module" module-name="Slidedemo" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -46,6 +45,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="pluginbase" />
   </component>
 </module>
 

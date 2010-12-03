@@ -321,7 +321,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoogleVoicePlugin.iml" filepath="$PROJECT_DIR$/GoogleVoicePlugin.iml" />
-      <module fileurl="file://$USER_HOME$/code/android/slidedemo/Slidedemo.iml" filepath="$USER_HOME$/code/android/slidedemo/Slidedemo.iml" />
+      <module fileurl="file://$USER_HOME$/code/android/slidescreenplugin/pluginbase/pluginbase.iml" filepath="$USER_HOME$/code/android/slidescreenplugin/pluginbase/pluginbase.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
