@@ -42,8 +42,13 @@ public class GoogleVoiceContentProvider extends ContentProvider {
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String username = preferences.getString(GoogleVoicePluginPreferences.SETTING_USERNAME, null);
-        String authToken = preferences.getString(GoogleVoicePluginPreferences.SETTING_AUTH_TOKEN, null);
+        if (!preferences.contains(GoogleVoicePluginPreferences.SETTING_USERNAME)) {
+            Log.w(TAG, "No username set, telling SlideScreen we need to show settings entry.");
+            return makeSettingsNeededCursor();
+        }
+
+        String username = preferences.getString(GoogleVoicePluginPreferences.SETTING_USERNAME, "nousername");
+        String authToken = preferences.getString(GoogleVoicePluginPreferences.SETTING_AUTH_TOKEN, "");
 
         try {
             Voice voice = null;
@@ -51,10 +56,7 @@ public class GoogleVoiceContentProvider extends ContentProvider {
                 voice = new Voice(username, authToken, false);
             } catch (AuthenticationException e) {
                 Log.e(TAG, "Login failure, telling SlideScreen we need to show settings entry: " + e.getMessage(), e);
-                MatrixCursor cursor = new MatrixCursor(new String[]{FIELD_SETTINGS_NEEDED_MESSAGE});
-                MatrixCursor.RowBuilder builder = cursor.newRow();
-                builder.add("Login failed, press here to login.");
-                return cursor;
+                return makeSettingsNeededCursor();
             }
 
             String inbox = voice.getInbox();
@@ -71,41 +73,43 @@ public class GoogleVoiceContentProvider extends ContentProvider {
                 long startTime = msgobj.has(JSONContants.START_TIME) ? msgobj.getLong(JSONContants.START_TIME) : 0;
 //                    String note = jsonSmsThread.has(JSONContants.NOTE) ? jsonSmsThread.getString(JSONContants.NOTE) : "";
                 boolean isRead = msgobj.has(JSONContants.IS_READ) ? msgobj.getBoolean(JSONContants.IS_READ) : false;
-                JSONArray labels = msgobj.getJSONArray(JSONContants.LABELS);
-                String subj = "";
-                for (int j = 0; j < labels.length(); j++) {
-                    String label = labels.getString(j);
-                    if (JSONContants.LABEL_SMS.equals(label)) {
-                        subj += "SMS ";
-                    } else if (JSONContants.LABEL_VOICEMAIL.equals(label)) {
-                        subj += "VOICEMAIL ";
-                    } else if (JSONContants.LABEL_MISSED.equals(label)) {
-                        subj += "MISSED ";
+                if (!isRead) {
+                    JSONArray labels = msgobj.getJSONArray(JSONContants.LABELS);
+                    String subj = "";
+                    for (int j = 0; j < labels.length(); j++) {
+                        String label = labels.getString(j);
+                        if (JSONContants.LABEL_SMS.equals(label)) {
+                            subj += "SMS ";
+                        } else if (JSONContants.LABEL_VOICEMAIL.equals(label)) {
+                            subj += "VOICEMAIL ";
+                        } else if (JSONContants.LABEL_MISSED.equals(label)) {
+                            subj += "MISSED ";
+                        }
                     }
-                }
-                MatrixCursor.RowBuilder builder = cursor.newRow();
-                for (String field : fields) {
-                    if (FIELD_ID.equals(field)) {
-                        builder.add("" + id);
-                    } else if (FIELD_TITLE.equals(field)) {
-                        builder.add(dispNum);
-                    } else if (FIELD_LABEL.equals(field)) {
-                        builder.add("");
-                    } else if (FIELD_TEXT.equals(field)) {
-                        builder.add(subj);
-                    } else if (FIELD_DATE.equals(field)) {
-                        builder.add(startTime);
-                    } else if (FIELD_PRIORITY.equals(field)) {
-                        builder.add(startTime);
-                    } else if (FIELD_INTENT.equals(field)) {
-                        ArrayList<String> intents = new ArrayList<String>();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.setComponent(new ComponentName("com.google.android.apps.googlevoice", "com.google.android.apps.googlevoice.SplashActivity"));
-                        intents.add(intent.toURI());
-                        intents.add(new Intent(Intent.ACTION_VIEW, Uri.parse("https://voice.google.com")).toURI());
-                        builder.add(PluginUtils.combineStrings(intents));
-                    } else {
-                        builder.add("");
+                    MatrixCursor.RowBuilder builder = cursor.newRow();
+                    for (String field : fields) {
+                        if (FIELD_ID.equals(field)) {
+                            builder.add("" + id);
+                        } else if (FIELD_TITLE.equals(field)) {
+                            builder.add(dispNum);
+                        } else if (FIELD_LABEL.equals(field)) {
+                            builder.add("");
+                        } else if (FIELD_TEXT.equals(field)) {
+                            builder.add(subj);
+                        } else if (FIELD_DATE.equals(field)) {
+                            builder.add(startTime);
+                        } else if (FIELD_PRIORITY.equals(field)) {
+                            builder.add(startTime);
+                        } else if (FIELD_INTENT.equals(field)) {
+                            ArrayList<String> intents = new ArrayList<String>();
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.setComponent(new ComponentName("com.google.android.apps.googlevoice", "com.google.android.apps.googlevoice.SplashActivity"));
+                            intents.add(intent.toURI());
+                            intents.add(new Intent(Intent.ACTION_VIEW, Uri.parse("https://voice.google.com")).toURI());
+                            builder.add(PluginUtils.combineStrings(intents));
+                        } else {
+                            builder.add("");
+                        }
                     }
                 }
 
@@ -165,6 +169,13 @@ public class GoogleVoiceContentProvider extends ContentProvider {
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
         */
+    }
+
+    private Cursor makeSettingsNeededCursor() {
+        MatrixCursor cursor = new MatrixCursor(new String[]{FIELD_SETTINGS_NEEDED_MESSAGE});
+        MatrixCursor.RowBuilder builder = cursor.newRow();
+        builder.add("Login failed, press here to login.");
+        return cursor;
     }
 
     @Override

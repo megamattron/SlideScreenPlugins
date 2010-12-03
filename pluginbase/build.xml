@@ -66,7 +66,6 @@
 
     <!-- START OUR OWN BUILD DIRECTIVES -->
     <target name="bundle" depends="scrub,install" description="Make debug APK."/>
-    <!--<target name="resources" depends="resource-src" description="Can I get a reso?"/>-->
     <target name="deploy" depends="scrub,release" description="Make release APK."/>
     <!--<target name="cleanit" depends="clean" description="Clean it up."/>-->
     <target name="scrub" description="Cleans bin dir.">

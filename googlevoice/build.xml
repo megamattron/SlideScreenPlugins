@@ -65,29 +65,10 @@
     <setup/>
 
     <!-- START OUR OWN BUILD DIRECTIVES -->
-    <target name="voicejar">
-        <mkdir dir="bin/classes"/>
-        <javac srcdir="../opensource/google-voice-java-read-only/src"
-               destdir="bin/classes">
-            <classpath>
-                <fileset dir="libs" includes="**"/>
-            </classpath>
-        </javac>
-        <jar destfile="libs/googlevoice.jar" basedir="bin/classes"/>
-        <delete dir="bin"/>
-    </target>
     <target name="bundle" depends="scrub,install" description="Make debug APK."/>
-    <!--<target name="resources" depends="resource-src" description="Can I get a reso?"/>-->
     <target name="deploy" depends="scrub,release" description="Make release APK."/>
-    <!--<target name="cleanit" depends="clean" description="Clean it up."/>-->
     <target name="scrub" description="Cleans bin dir.">
         <delete dir="bin"/>
-    </target>
-    <target name="run" depends="bundle" description="Runs the app.">
-        <exec executable="${sdk.dir}/tools/adb">
-            <arg value="shell"/>
-            <arg value="am start -a android.intent.action.MAIN -n com.larvalabs.googlevoiceplugin/com.larvalabs.googlevoiceplugin.TestActivity"/>
-        </exec>
     </target>
     <target name="uninstall" description="Uninstall the app.">
         <exec executable="${sdk.dir}/tools/adb">
