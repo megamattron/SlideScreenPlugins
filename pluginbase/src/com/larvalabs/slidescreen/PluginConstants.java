@@ -14,7 +14,9 @@ public class PluginConstants {
     public static final String FIELD_LABEL = "_label";
     public static final String FIELD_INTENT = "_intent";
 
-    public static final String FIELD_SETTINGS_NEEDED_MESSAGE = "_settingsneededmessage";    
+    public static final String FIELD_SETTINGS_NEEDED_MESSAGE = "_settingsneededmessage";
+
+    public static final String TYPE_ENTRY = "slidescreen.entry";
 
     public static final String[] FIELDS_ARRAY = new String[]{FIELD_ID, FIELD_TITLE, FIELD_DATE, FIELD_PRIORITY, FIELD_TEXT, FIELD_LABEL, FIELD_INTENT};
 }

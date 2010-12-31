@@ -180,7 +180,7 @@ public class GoogleVoiceContentProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return "vnd.android.cursor.item";
+        return TYPE_ENTRY;
     }
 
     public Uri insert(Uri uri, ContentValues contentValues) {

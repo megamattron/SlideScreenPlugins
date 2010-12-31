@@ -71,11 +71,12 @@
         <delete dir="bin"/>
     </target>
     <target name="uninstall" description="Uninstall the app.">
-        <exec executable="${sdk.dir}/tools/adb">
+        <exec executable="${sdk.dir}/platform-tools/adb">
             <arg value="uninstall"/>
             <arg value="com.larvalabs.googlevoiceplugin"/>
         </exec>
     </target>
+    <target name="buildapk" depends="scrub, release" description="Build APK."/>
     <!-- END OUR OWN BUILD DIRECTIVES -->
 
 </project>

@@ -321,8 +321,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoogleVoicePlugin.iml" filepath="$PROJECT_DIR$/GoogleVoicePlugin.iml" />
-      <module fileurl="file://$USER_HOME$/code/android/slidescreenplugin/pluginbase/pluginbase.iml" filepath="$USER_HOME$/code/android/slidescreenplugin/pluginbase/pluginbase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pluginbase/pluginbase.iml" filepath="$PROJECT_DIR$/../pluginbase/pluginbase.iml" />
     </modules>
+  </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
@@ -348,7 +351,7 @@
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
       <map>
-        <entry key="$USER_HOME$/code/android/slidedemo">
+        <entry key="$PROJECT_DIR$/../../slidedemo">
           <value>
             <SvnBranchConfiguration>
               <option name="trunkUrl" value="https://venture1.projectlocker.com/LarvaLabs/Main/svn/android/slidedemo" />
@@ -402,7 +405,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="$USER_HOME$/code/android/slidescreenplugin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />

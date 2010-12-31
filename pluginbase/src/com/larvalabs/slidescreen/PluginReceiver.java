@@ -10,6 +10,9 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * User: matt
  * Date: Nov 30, 2010
@@ -19,7 +22,7 @@ public abstract class PluginReceiver extends BroadcastReceiver {
 
     public static final String LOGTAG = "SlidescreenPluginReceiver";
 
-    public static final int API_VERSION = 1;
+    public static final int API_VERSION = 2;
 
     public static final String INTENT_ACTION_DISCOVER_PLUGINS = "com.larvalabs.slidescreen.DISCOVER_PLUGINS";
     public static final String INTENT_ACTION_PLUGIN_MARK_READ = "com.larvalabs.slidescreen.PLUGIN_MARK_READ";
@@ -49,14 +52,15 @@ public abstract class PluginReceiver extends BroadcastReceiver {
             response.putExtra(EXTRA_GROUP_NAME, getName());
             response.putExtra(EXTRA_PLUGIN_API_VERSION, API_VERSION);
             response.putExtra(EXTRA_GROUP_COLOR, getColor());
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), getIconResourceId());
-            Bitmap copy = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-            {
-                Canvas canvas = new Canvas(copy);
-                Paint paint = new Paint();
-                canvas.drawBitmap(bitmap, 0, 0, paint);
+            InputStream iconInputStream = context.getResources().openRawResource(getIconResourceId());
+            String iconData = null;
+            try {
+                iconData = PluginUtils.readAll(iconInputStream);
+            } catch (IOException e) {
+                Log.e(LOGTAG, "Error reading icon file: " + e.getMessage(), e);
+                return;
             }
-            response.putExtra(EXTRA_ICON, copy);
+            response.putExtra(EXTRA_ICON, iconData);
             response.putExtra(EXTRA_GROUP_INTENT, getSingleTapShortcutIntents());
             response.putExtra(EXTRA_LONG_INTENT, getLongpressShortcutIntents());
             response.putExtra(EXTRA_PREFERENCE_INTENT, getPreferenceActivityIntent());

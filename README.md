@@ -20,7 +20,7 @@ Here is the information SlideScreen needs to integrate your plugin, each type co
 * A URI that points to your ContentProvider.
 * A human readable name for your group.
 * A default color to be shown beside the group in the interface.
-* An icon for the right side of the group in a format specified later.
+* An SVG icon for the right side of the group in a format specified later.
 * An array of Intents to try when the user single presses your icon. The Intents are tried in order until one works.
 * An array of Intents for the long press of your icon.
 * An Intent to launch your plugin's preferences activity.
@@ -46,7 +46,7 @@ Your plugin is limited in some fairly generous ways at the moment, we might tigh
 
 ### Misc
 
-* Icons of various sizes can be provided via the normal Android resource framework. We are working on a style guide for the style of icon SlideScreen uses currently, it should be ready shortly. Note: Please try not to break our hearts by using an insane icon.
+* Since our icon style is so simple we support a vector SVG icon file that will we scale for any needed size. There is an Illustrator icon template in the icontemplate folder that should help you format the file correctly. Save your results as TinySVG into the res/raw folder, see the examples for how that should look. Note: Please try not to break our hearts by using an insane icon.
 * The Google Voice plugin included needs more work, especially in parsing message content. It would also be nice to be able to return calls from the interface and better integrate with the official Google Voice app.
 
 Support
