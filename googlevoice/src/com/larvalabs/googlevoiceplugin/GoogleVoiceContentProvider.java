@@ -101,12 +101,12 @@ public class GoogleVoiceContentProvider extends ContentProvider {
                         } else if (FIELD_PRIORITY.equals(field)) {
                             builder.add(startTime);
                         } else if (FIELD_INTENT.equals(field)) {
-                            ArrayList<String> intents = new ArrayList<String>();
+                            ArrayList<Intent> intents = new ArrayList<Intent>();
                             Intent intent = new Intent(Intent.ACTION_MAIN);
                             intent.setComponent(new ComponentName("com.google.android.apps.googlevoice", "com.google.android.apps.googlevoice.SplashActivity"));
-                            intents.add(intent.toURI());
-                            intents.add(new Intent(Intent.ACTION_VIEW, Uri.parse("https://voice.google.com")).toURI());
-                            builder.add(PluginUtils.combineStrings(intents));
+                            intents.add(intent);
+                            intents.add(new Intent(Intent.ACTION_VIEW, Uri.parse("https://voice.google.com")));
+                            builder.add(PluginUtils.encodeIntents(intents));
                         } else {
                             builder.add("");
                         }

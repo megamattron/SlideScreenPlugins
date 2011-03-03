@@ -57,7 +57,7 @@ public class SlideDemoContentProvider extends ContentProvider {
                 } else if (FIELD_INTENT.equals(field)) {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.setType("vnd.android-dir/mms-sms");
-                    builder.add(intent.toURI());
+                    builder.add(PluginUtils.encodeIntents(intent));
                 } else {
                     builder.add("");
                 }
