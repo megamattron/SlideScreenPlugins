@@ -1,9 +1,11 @@
 package com.larvalabs.slidescreen;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Parcel;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,5 +73,25 @@ public class PluginUtils {
         }
         return sw.toString();
     }
+
+    public static boolean hasAPILevel(int level) {
+        // Fail fast if we aren't above 1.1
+        if (Build.VERSION.RELEASE.charAt(0) == '1') {
+            return false;
+        } else {
+            Class versionClass = Build.VERSION.class;
+            try {
+                Field sdkIntField = versionClass.getField("SDK_INT");
+                int sdkInt = sdkIntField.getInt(null);
+                return (sdkInt >= level);
+            } catch (NoSuchFieldException e) {
+                // If no field, then just give up.
+                return false;
+            } catch (IllegalAccessException e) {
+                // If can't give value, then just give up
+                return false;
+            }
+        }
+    }    
 
 }
